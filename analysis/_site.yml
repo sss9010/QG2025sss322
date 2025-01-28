@@ -1,7 +1,7 @@
 name: "QuantGen_ss322"
 output_dir: ../docs
 navbar:
-  title: "Homework"
+  title: "PLSCI 4170 Quantitative Genetics"
   left:
   - text: Home
     href: index.html
