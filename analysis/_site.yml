@@ -1,7 +1,7 @@
-name: "myproject1"
+name: "QuantGen_ss322"
 output_dir: ../docs
 navbar:
-  title: "myproject1"
+  title: "Homework"
   left:
   - text: Home
     href: index.html

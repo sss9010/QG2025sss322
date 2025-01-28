@@ -1,5 +1,5 @@
 ---
-title: "Home"
+title: "Quantitative Genetics"
 site: workflowr::wflow_site
 output:
   workflowr::wflow_html:
@@ -8,6 +8,6 @@ editor_options:
   chunk_output_type: console
 ---
 
-Welcome to my research website.
+Homework of sss322 for the Quantitative Genetics 2025 Spring
 
-[Hi Adelaide  :* ](HW1.html)
+[Homework 1 ](HW1.html)
