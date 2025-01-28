@@ -13,4 +13,4 @@ Homework of sss322 for the Quantitative Genetics 2025 Spring
 [Homework 1](HW1.html)
 
 
-[Homework 2](HW2.html)
+[Homework 2](MatrixAlgebra.html)
