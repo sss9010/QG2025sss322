@@ -10,4 +10,4 @@ editor_options:
 
 Welcome to my research website.
 
-[Homework 1](HW1.html)
+[Hi Adelaide  :* ](HW1.html)
