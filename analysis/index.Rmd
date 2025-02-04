@@ -14,3 +14,7 @@ Homework of sss322 for the Quantitative Genetics 2025 Spring
 
 
 [Homework 2](MatrixAlgebra.html)
+
+
+[Homework 3](Lab3_ProgrammingAlphaSimR.html)
+
