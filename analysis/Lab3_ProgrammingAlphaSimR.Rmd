@@ -1,8 +1,8 @@
 ---
-title: "Reproducible scripting, AlphaSimR, Homework"
+title: "HW3"
 author: 
-  name: "Jean-Luc Jannink"
-  affiliation: "USDA-ARS / Cornell"
+  name: "sss322"
+  affiliation: ""
 date: "February 4, 2025"
 output:
   html_document:
@@ -35,43 +35,8 @@ knitr::opts_chunk$set(message=FALSE)
 knitr::opts_chunk$set(cache=FALSE)
 ```
 
-# Preliminaries
-
-### Rmarkdown
-This lab is written in Rmarkdown. I find it challenging to remember the syntax,
-but here is a
-[cheatsheet](https://rstudio.github.io/cheatsheets/html/rmarkdown.html)
-
-### Learning objectives
-1. A bit more on reproducible scripting  
-Some other things that matter to me to ensure communicability and reproducibility
-  i) The main README.md file should contain information about the conditions under which the script was run  
-  ii) I like the script to have a predictable strucure: load and document the packages used, if there is a stochastic component, set the random seed, set and document the parameter values that will affect the script output  
-  iii) Use a consistent directory structure. Happily, such a consistent structure is enforced by `workflowr`  
-  iv) Use the package `here` to make file locations relative to the base project folder  
-
-2. AlphaSimR  
-`AlphaSimR` is a package to simulate breeding populations and tasks. It is not
-completely intuitive nor completely well-documented. We will want to use it
-ultimately to optimize breeding schemes. As a way to introduce AlphaSimR, this
-Rmarkdown script contains code to illustrate the "outbreak of variation" that
-occurs when a heterozygous individual is self-fertilized. This phenomenon was
-important in supporting the notion that quantitative traits were influenced by
-many loci.  Here is an 
-[introduction](https://cran.r-project.org/web/packages/AlphaSimR/vignettes/intro.html)
-showing code to simulate a very simple mass selection program.  Here is a
-[deep dive](https://cran.r-project.org/web/packages/AlphaSimR/vignettes/traits.pdf)
-into how `AlphaSimR` simulates traits.
-
-3. Prepare a Homework  
-Your homework will be to write a script that illustrates the interesting phenomenon of regression toward the mean between parents and progeny that we discussed in class.  
-
-# Ordering of the script  
-It's good to have all scripts in the same order with respect to standard tasks  
-
 ### Load packages first  
-If your script depends on external packages, load them at the beginning. This shows users early on what the script dependencies are.  
-```{r load packages, message=TRUE}
+```{r load packages, message=TRUE,include=FALSE }
 packages_used <- c("AlphaSimR", "tidyverse", "workflowr", "here")
 ip <- installed.packages()
 all_packages_installed <- TRUE
@@ -85,128 +50,57 @@ if (!all_packages_installed) stop("Need to install packages")
 
 library(tidyverse)
 ```
-Notice the conflicts report from loading tidyverse.  Two packages (`dplyr` and `stats`) both have a function called `filter`. Since dplyr was loaded *after* stats, if you use the function `filter`, it will go to the dplyr version.  It is dangerous to rely on what order packages have been loaded to determine which `filter` function you get.  R syntax to prevent ambiguity is to write either `dplyr::filter` or `stats::filter`.  Using that syntax will make your code more reproducible.  
 
-### Set file locations relative to the project folder using `here`  
-```{r set here path}
-here::i_am("analysis/Lab3_ProgrammingAlphaSimR.Rmd")
-```
-There are two functions I use in the `here` package: `here::i_am` and `here::here`. `here::i_am` helps `here` "understand" the folder structure. You give it the name of the script that is currently running, and the path to that script from the base of the overall analysis folder. From that, `here` deduces where the base of the folder is.  After that, `here::here` locates files from that folder base. If you use the `here` package, you can send anyone a complicated zipped folder, and they should be able to run the analysis out of the box, regardless of where they put the folder in their own file system.  
-
-### Document packages used  
-This chunk creates a "README.md" file that documents the packages and versions used for future reference.  
-```{r document packages}
-source(here::here("code/addToREADME.R"))
-addToREADME(paste0("## ", rmarkdown::metadata$title), append=F)
-addToREADME(c(date(), ""))
-
-packages_info <- ip[packages_used, c("Package", "Version", "Built")]
-addToREADME(c("The packages used in this script are:", "Package, Version, Built"))
-apply(packages_info, 1, function(vec) addToREADME(paste(vec, collapse=" ")))
-addToREADME("")
-```
-Hyperlink the [README file](README.md) to the report.  That makes it easy to find.  
 
 ### Set random seed  
-AlphaSimR generates many random numbers (e.g., to simulate Mendelian random segregation).  If you want the result of the analysis to come out the same each time (there are pros and cons) you need to set the random seed. Note that `workflowr` does this by default. If you are not using that package, then be explicit.  
 ```{r set random seed}
 random_seed <- 45678
 set.seed(random_seed)
-addToREADME(c(paste("The random seed is", random_seed), ""))
 ```
-
-### Script parameters  
-If the behavior of your script depends on parameters that you set, initialize them early on.  
-```{r simulation parameters}
-nFounders <- 100
-nChr <- 10 # Number of chromosomes
-nSitesPerChr <- 1000 # Number of segregating sites _per chromosome_
-nQTLperChr <- 10 # Vary this parameter to get oligo- versus poly- genic traits
-nF1s <- 200 # We are going to make F1s to test outbreak of variation
-nF2s <- 200 # We are going to make F2s to test outbreak of variation
-```
-
-
 
 # Homework  
 Illustrate regression to the mean between parents and offspring using AlphaSimR  
-1. You know how to create a population -- create a population of parents
 
+1. You know how to create a population -- create a population of parents
 ```{r}
-nFounders <- 2000
+nFounders <- 100
 nChr <- 10 # Number of chromosomes
 nSitesPerChr <- 1000 # Number of segregating sites _per chromosome_
-nQTLperChr <- 10 # Vary this parameter to get oligo- versus poly- genic traits
-```
+nQTLperChr <- 250 # Vary this parameter to get oligo- versus poly- genic traits
 
-Creating a founder population
-```{r Make founder population}
-founderHaps <- AlphaSimR::runMacs(nInd=nFounders, nChr=nChr, 
-                                  segSites=nSitesPerChr)
+
+founderHaps <- AlphaSimR::runMacs(nFounders, nChr, nSitesPerChr) #Simulating haplotypes
 
 SP <- AlphaSimR::SimParam$new(founderHaps)
 SP$addTraitA(nQtlPerChr=nQTLperChr)
-founders <- AlphaSimR::newPop(founderHaps, simParam=SP)
-str(founders)
+founders <- AlphaSimR::newPop(founderHaps, simParam=SP) #Simulating parents genotypes based on the haplotypes and the trait charactherisitcs 
 ```
-
-
-Self fertilize the founders for some generations to get the parents
-```{r self founders}
-nGenSelf <- 3
-inbredPop <- founders
-for (gen in 1:nGenSelf){
-  inbredPop <- AlphaSimR::self(inbredPop)
-}
-```
-
-
-```{r Check homozygosity}
-qtl <- AlphaSimR::pullQtlGeno(inbredPop)
-if (nrow(qtl) != nFounders) stop("The number of individuals is unexpected")
-if (ncol(qtl) != nChr * nQTLperChr) stop("The number of QTL is unexpected")
-fracHet <- sum(qtl == 1) / (nFounders * nChr * nQTLperChr)
-cat("Expected fraction heterozygous", 1 / 2^nGenSelf, "\n",
-    "Observed fraction heterozygous", fracHet, "+/-", 
-    round(2*sqrt(fracHet*(1-fracHet)/(nFounders*nChr*nQTLperChr)), 3), "\n")
-```
-
 
 
 2. You know how to get phenotypes from that population  
-
 ```{r}
-randomparents <- inbredPop[sample(nFounders, 100)]
-inbredPop <- AlphaSimR::setPheno(inbredPop, varE=0.2)
-
+founders <- AlphaSimR::setPheno(founders, varE=1, simParam = SP)
+hist(founders@pheno)
 ```
 
 
 3. You want to randomly mate that population to get progeny that will be (we assume)
-regressed to the mean. Create a `crossPlan` matrix like I did to generate the
-F1s, except that each row should have randomly-picked parents, rather than 1 and
-2 like for the F1s. There is also a command `AlphaSimR::randCross`.  Check out
-its documentation. If you use that command, you will have to find the pedigree
-of the progeny using the `@mother` and `@father` ids of the progeny population
-and match those up to the parent population. If you make the crossPlan, then it
-gives you the seed and pollen parent ids.
-
+regressed to the mean. 
 
 ```{r}
 parents<- rep(1:100, 1)
-crossPlan <- matrix(rep(sample(parents, 100), 2), ncol=2, byrow=T)
-random_mate <- AlphaSimR::makeCross(randomparents, crossPlan)
+crossPlan <- matrix(rep(sample(parents, 200, replace = TRUE), 1), ncol=2, byrow=T)
+random_mate <- AlphaSimR::makeCross(founders, crossPlan, simParam = SP)
 head(crossPlan)
-
 ```
 
 
 
 4. Having made the progeny population, phenotype it also  
 
-
 ```{r}
-random_mate  <- AlphaSimR::setPheno(random_mate, varE=0.2)
+random_mate  <- AlphaSimR::setPheno(random_mate, varE=1,simParam = SP)
+hist(random_mate@pheno)
 ```
 
 
@@ -215,47 +109,60 @@ random_mate  <- AlphaSimR::setPheno(random_mate, varE=0.2)
 
 ```{r}
 
-#preparing the crossplan parents info
-crossPlan<- as.data.frame(crossPlan)
-colnames(crossPlan)<- c("GID1", "GID2")
+crossPlan <- as.data.frame(crossPlan)
+colnames(crossPlan) <- c("P1", "P2")
 
-#preparing the crossplan phenotype info
-phen<-  as.data.frame(AlphaSimR::pheno(inbredPop))
-phen$GID1<- rownames(phen)
-phen$GID2<- rownames(phen)
+crossPlan$p_pheno1 <- sapply(crossPlan$P1, function(pid) founders@pheno[[pid]])# pulling the parent1 pheno
+crossPlan$p_pheno2 <- sapply(crossPlan$P2, function(pid) founders@pheno[[pid]]) # pulling the parent2 pheno
 
+crossPlan$mp <- rowMeans(cbind(crossPlan$p_pheno1, crossPlan$p_pheno2))# finding the midparent pheno
 
-#Extracting the parent 1 phenotype
-ph1<- merge(crossPlan, phen[,-3], by= "GID1")
-colnames(ph1)[3]<- "parent1ph"
-
-#Extracting the parent 2 phenotype
-ph1<- merge(ph1, phen[,-2], by= "GID2")
-colnames(ph1)[4]<- "parent2ph"
-
-#calculating the midparent value
-ph1$midparent_ph<- (ph1$parent1ph + ph1$parent2ph)/2
-ph1<- ph1[,c(-3,-4)]
-ph1
-
-#Adding the progeny's own phenotype
-ph2<-  AlphaSimR::pheno(random_mate)
-ph1$pheno<- ph2
-
-plot(ph1$pheno, ph1$midparent_ph)
-cor(ph1$midparent_ph, ph1$pheno)
+pheno <- as.data.frame(cbind(crossPlan$mp, random_mate@pheno))
+colnames(pheno)<- c("midparent", "f1")
 ```
-
 
 
 
 6. Make a scatterplot of the progeny phenotypes against the parent mean phenotypes  
 
+```{r}
+ggplot(data=pheno, aes(x=midparent, y=f1)) +
+  geom_point()
+```
+
+
+
 > What is the regression coefficient?  
+
+```{r}
+mod<- lm(pheno$midparent ~pheno$f1)
+regcoef<- mod$coefficients[2]
+
+cat(
+  "The regression coefficient is ",
+  regcoef
+)
+```
+
+
 > How much closer to the mean are offspring, on average, compared to their parents?  
 
-### Homework grading  
-I want to receive a zipped folder with your homework in it one week from today, by midnight.  If you use the `workflowr` package to create the folder structure, that's great. You should have created an Rmarkdown script that will create an html file that I can look through. So:  
-1. 4 points for just sending in a zipped folder on time  
-2. 1 points for each successful step from above, with partial credit  
-3. I will subtract 0.5 points for every day the homework is late  
+```{r}
+pheno_mean<- mean(c(founders@pheno, random_mate@pheno))
+
+pheno$midparent_dev <-  pheno$midparent - pheno_mean
+pheno$f1_dev <- pheno$f1 - pheno_mean
+
+mean_f1_dev<- abs(mean(pheno$f1_dev))
+mean_midparent_dev<- abs(mean(pheno$midparent_dev))
+
+dif<- mean_midparent_dev - mean_f1_dev # deifference between the distance offspring and the midparents mean devaiations from the overall mean
+```
+
+```{r}
+cat(
+  "The midparents deviation from the overall mean is",
+  dif,
+  "units greater than the progeny mean phenotype deviation."
+)
+```
