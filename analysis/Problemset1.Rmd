@@ -1,0 +1,144 @@
+---
+title: "Problem Set 1"
+author: "sss322"
+date: "2025-02-05"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+#### **Q1 As a plant breeder I want to fix an allele that provides resistance to an important crop disease.** 
+Unfortunately, I do not have the ability to directly genotype the causative mutation, but I have identified a genetic marker that is closely linked the causative mutation. Based on mapping experiments the recombination frequency between the marker (alleles: A & a) and the QTL (alleles: Q – resistant & q – susceptible) is r = .25I have crossed a homozygous resistant line to a homozygous susceptible line to get an offspringwith the genotype: !AQ$ %aq
+(I will self this individual to generate offspring segregating for resistance.
+
+#### **A. If I select only lines with the genotype AA, what expected proportion of the selected lines that will be homozygous for the favorable QTL (QQ)? (2 pts)**
+
+
+In the haplotypes: 
+
+Probability of AQ is 0.5 * 0.75= 0.375
+
+Probability of Aq and aQ is 0.5 * 0.25 + 0.5 * 0.25 * 0.25
+
+Probability of aq is 0.5 * 0.75= 0.375
+
+In the whole genotype: 
+
+Probability of AA is 0.25
+(from the Punnett square)
+
+I want the find the probability of QQ given AA, through using the joint probability. 
+
+P= P(QQ and AA) / P(AA) = (P(AQ)*P(AQ))/ P(AA)
+
+P=  (0.375*0.375)) / 0.25 = 0.5625
+
+
+**The probability that i get the genotype where both marker alleles are A and there has been no recombination between the marker and the qtl is 0.5625**
+
+
+
+#### **Q2 Similar to Q1 I have identified markers linked to a QTL of interest and I now want to practice marker assisted selection to fix the favorable allele in a population. ** 
+
+In this scenario I have 2 markers linked on either side of the QTL. Marker 1 (alleles A, a) has a recombination frequency r =.4 with the QTL and Marker 2 (alleles B, b) has a recombination frequency r =.3 with the QTL.
+As before I’ve crossed a line that is homozygous for the beneficial allele (Q) and a line that is homozygous for the unfavorable allele (q): )AQB+,aqb.
+I selfed the heterozygous line above to generate many offspring.The QQ genotype has a value of a = 5 for the trait of interest, the unfavorable genotype qq has
+a value of -a = -5 for the trait of interest. The trait is additive (no dominance)
+
+#### **A. As a breeder I want to fix the resistance allele. If I select only lines with the genotype AABB, what is the expected proportion of the selected lines that will be homozygous for the favorable QTL (QQ)? (2 pts)**
+
+
+P(QQ given AABB)
+
+**Probability of AB haplotypes:**
+
+aqb= ABQ =0.5 * 0.6 * 0.7(getting A and B with no crossovers) + 0.5 * 0.3 *0.4 (getting A and B as a result of 2 crossovers) = 0.27
+
+AqB = 0.5 * 0.3 * 0.4 (getting 2 crossovers) = 0.06
+
+aQB= 0.5 * 0.4 * 0.7(crossover in AQ) + 0.5 * 0.6 * 0.3(Crossover in QB) = 0.23
+
+AQb = 0.5 * 0.6 * 0.3= 0.09
+
+Aqb= 0.5 * 0.4 * 0.7 = 0.14
+
+
+The probability of Q given AB haplotype = (0.27-0.06)/0.27 = 0.77
+
+The probability of q given AB haplotype =  1-0.77= 0.23
+
+The probability of QQ given AABB genotype = 0.77*0.77= 0.5929
+
+The probability of qq given AABB genotype = 0.23*0.23= 0.0529
+
+The probability of Qq/qQ given AABB genotype = 2 * (0.77 * 0.23)= 0.3542
+
+**The proportion of lines that have QQ given AABB genotype is 0.59**
+
+
+
+#### **B. What is the expected value for offspring with the genotype AABB? (3 pts)**
+QQ given AABB= 0.5929
+
+qq given AABB= 0.0529
+
+Qq given AABB= 0.3542
+
+```{r}
+(0.5929*5) + (0.3542*0) + (0.0529*-5) 
+```
+The expected value when the genotype is AABB is 2.7
+
+
+#### **C. What is the expected value for lines with the genotype AA? (3 pts)**
+
+Probability of QQ given AA = 0.6*0.6= 0.36
+
+Probability of qq given AA= 0.4*0.4 = 0.16
+
+Probability of Qq given AA is 2 * 0.4 * 0.6 = 0.48
+
+
+```{r}
+(0.36*5) + (0.48*0) + (0.16*-5) 
+```
+Expected value whenthe genotype is AA =1 
+
+
+#### **D. What is the expected value for lines with the genotype BB? (3 pts)**
+
+Probability of QQ given BB = 0.7*0.7= 0.49
+
+Probability of qq given BB= 0.3*0.3 = 0.09
+
+Probability of Qq given BB is 2 * 0.7 * 0.3 = 0.42
+
+
+```{r}
+(0.49*5) + (0.42*0) + (0.09*-5) 
+```
+Expected value when the genotype is BB =2 
+
+
+
+#### **E. How close would a single marker need to be in order for marker assisted selection to as effective and the two marker example above? (2 pts)**
+
+x= the 1-r value for the MAS to be as effective as two marker selection
+
+q= 1-x
+
+5x^2 + 2x(1-x) * 0 + (1-x)^2 * (-5) = 2.7
+
+5x^2 + 0 + -5+10x-5p^2 = 2.7
+
+10x = 2.7+5 = 7.7
+
+x= 0.77
+
+r= 1-x= 0.23
+
+**The recombination frequency of a marker has to be smaller than 0.23 to be as effective as two marker selection in MAS. **
