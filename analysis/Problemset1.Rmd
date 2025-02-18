@@ -18,24 +18,23 @@ Unfortunately, I do not have the ability to directly genotype the causative muta
 #### **A. If I select only lines with the genotype AA, what expected proportion of the selected lines that will be homozygous for the favorable QTL (QQ)? (2 pts)**
 
 
-In the haplotypes: 
-
-Probability of AQ is 0.5 * 0.75= 0.375
-
-Probability of Aq and aQ is 0.5 * 0.25 + 0.5 * 0.25 * 0.25
-
-Probability of aq is 0.5 * 0.75= 0.375
 
 In the whole genotype: 
 
 Probability of AA is 0.25
 (from the Punnett square)
 
+Probability of AQ = P(no crossover) * 0.5 = (1 - 0.25) * 0.5 = 0.375
+
+
 I want the find the probability of QQ given AA, through using the joint probability. 
 
-P= P(QQ and AA) / P(AA) = (P(AQ)*P(AQ))/ P(AA)
+P= P(QQ and AA) / P(AA) = (P(AQ) * P(AQ)) / P(AA)
 
-P=  (0.375*0.375)) / 0.25 = 0.5625
+P=  (0.375 * 0.375)) / 0.25 = 0.5625
+
+
+The expected proportion of QQ given AA is equal to 0.5625
 
 
 **The probability that i get the genotype where both marker alleles are A and there has been no recombination between the marker and the qtl is 0.5625**
@@ -51,54 +50,47 @@ a value of -a = -5 for the trait of interest. The trait is additive (no dominanc
 
 #### **A. As a breeder I want to fix the resistance allele. If I select only lines with the genotype AABB, what is the expected proportion of the selected lines that will be homozygous for the favorable QTL (QQ)? (2 pts)**
 
+P(QQ given AABB) = P(QQ and AABB) / P(AABB)
 
-P(QQ given AABB)
+**Joint probability:**
 
-**Probability of AB haplotypes:**
+P(AABB) =  P(no crossover or 2 crossovers in 1st haplotype) * P(no crossover or 2 crossovers in 2nd haplotype)
 
-aqb= ABQ =0.5 * 0.6 * 0.7(getting A and B with no crossovers) + 0.5 * 0.3 *0.4 (getting A and B as a result of 2 crossovers) = 0.27
+P(AABB)= (0.5 * 0.6 * 0.7 + 0.5 * 0.4 * 0.3) * (0.5 * 0.6 * 0.7 + 0.5 * 0.4 * 0.3) = 0.27*0.27= 0.0729
 
-AqB = 0.5 * 0.3 * 0.4 (getting 2 crossovers) = 0.06
+**Probability of QQ and AABB:**
 
-aQB= 0.5 * 0.4 * 0.7(crossover in AQ) + 0.5 * 0.6 * 0.3(Crossover in QB) = 0.23
+Probability of QQ and AABB = 0.5 * (0.6 * 0.7) * 0.5 * (0.6 * 0.7) = 0.0441
 
-AQb = 0.5 * 0.6 * 0.3= 0.09
+**P(QQ given AABB) **
 
-Aqb= 0.5 * 0.4 * 0.7 = 0.14
+Probability of (QQ given AABB) = 0.0441/0.0729 = 0.6049383
 
-
-The probability of Q given AB haplotype = (0.27-0.06)/0.27 = 0.77
-
-The probability of q given AB haplotype =  1-0.77= 0.23
-
-The probability of QQ given AABB genotype = 0.77*0.77= 0.5929
-
-The probability of qq given AABB genotype = 0.23*0.23= 0.0529
-
-The probability of Qq/qQ given AABB genotype = 2 * (0.77 * 0.23)= 0.3542
-
-**The proportion of lines that have QQ given AABB genotype is 0.59**
+**The proportion of lines that have QQ given AABB genotype is 0.61**
 
 
 
 #### **B. What is the expected value for offspring with the genotype AABB? (3 pts)**
-QQ given AABB= 0.5929
+P(QQ given AABB) =  0.7778 ^2 =0.605.
 
-qq given AABB= 0.0529
 
-Qq given AABB= 0.3542
+P(qq given AABB)=  (P(2 crossovers have happened and AB)/P(AB))^2  =  (0.5 * 0.4 * 0.3) / (0.5 * 0.4 * 0.3 + 0.5 * 0.6 * 0.7)^2   =0.222 ^ 2 = 0.049
+
+P(Qq given AABB) =  2 * 0.7778 * 0.2222 = 0.345 
+
+
 
 ```{r}
-(0.5929*5) + (0.3542*0) + (0.0529*-5) 
+(0.605*5) + (0.345*0) + (0.049*-5) 
 ```
 The expected value when the genotype is AABB is 2.7
 
 
 #### **C. What is the expected value for lines with the genotype AA? (3 pts)**
 
-Probability of QQ given AA = 0.6*0.6= 0.36
+Probability of QQ given AA = P(Q given A) * P(Q given A) = (P(Q and A)/P(A))^2 = ((0.5 * (1 - 0.4)) / 0.5)^2 = (0.5 * 0.6 / 0.5)^2  = 0.36
 
-Probability of qq given AA= 0.4*0.4 = 0.16
+Probability of qq given AA = P(q given A) * P(q given A) = (P(Q and A)/P(A))^2 = ((0.5 * 0.4 / 0.5)^2 =  (0.4)^2 = 0.15
 
 Probability of Qq given AA is 2 * 0.4 * 0.6 = 0.48
 
@@ -111,9 +103,10 @@ Expected value whenthe genotype is AA =1
 
 #### **D. What is the expected value for lines with the genotype BB? (3 pts)**
 
-Probability of QQ given BB = 0.7*0.7= 0.49
 
-Probability of qq given BB= 0.3*0.3 = 0.09
+Probability of QQ given BB = P(Q given B) * P(Q given B) = (P(Q and B)/P(B))^2 = ((0.5 * (1 - 0.3)) / 0.5)^2 = (0.5 * 0.7 / 0.5)^2  = 0.49
+
+Probability of qq given BB = P(q given B) * P(q given B) = (P(q and B)/P(B))^2 = ((0.5 * 0.3 / 0.5)^2 = (0.5 * 0.3 / 0.5)^2  = 0.09
 
 Probability of Qq given BB is 2 * 0.7 * 0.3 = 0.42
 
@@ -131,14 +124,18 @@ x= the 1-r value for the MAS to be as effective as two marker selection
 
 q= 1-x
 
-5x^2 + 2x(1-x) * 0 + (1-x)^2 * (-5) = 2.7
+5x^2 + 2x(1-x) * 0 + (1-x)^2 * (-5) = 2.78
 
 5x^2 + 0 + -5+10x-5p^2 = 2.7
 
-10x = 2.7+5 = 7.7
+10x = 2.7+5 = 7.78
 
-x= 0.77
+x= 0.78
 
-r= 1-x= 0.23
+r= 1-x= 0.22
 
-**The recombination frequency of a marker has to be smaller than 0.23 to be as effective as two marker selection in MAS. **
+**The recombination frequency of a marker has to be smaller than 0.22 to be as effective as two marker selection in MAS. **
+
+
+
+

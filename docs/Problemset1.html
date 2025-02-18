@@ -382,7 +382,7 @@ aria-hidden="true"></span> </a>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2025-02-08
+<strong>Last updated:</strong> 2025-02-17
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -420,10 +420,10 @@ changes </a>
 <div id="strongRMarkdownfilestronguncommittedchanges"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown is untracked by Git. To know which version of the R
-Markdown file created these results, you’ll want to first commit it to
-the Git repo. If you’re still working on the analysis, you can ignore
-this warning. When you’re finished, you can run
+<p>The R Markdown file has unstaged changes. To know which version of
+the R Markdown file created these results, you’ll want to first commit
+it to the Git repo. If you’re still working on the analysis, you can
+ignore this warning. When you’re finished, you can run
 <code>wflow_publish</code> to commit the R Markdown file and build the
 HTML.</p>
 </div>
@@ -516,15 +516,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomsss9010QG2025sss322treeef29d98a63ea7661b22aab5f2043258a697af735targetblankef29d98a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomsss9010QG2025sss322tree5b366e9191a3582a9fcaff883e9b4f4c500aeb68targetblank5b366e9a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/sss9010/QG2025sss322/tree/ef29d98a63ea7661b22aab5f2043258a697af735" target="_blank">ef29d98</a>
+<a href="https://github.com/sss9010/QG2025sss322/tree/5b366e9191a3582a9fcaff883e9b4f4c500aeb68" target="_blank">5b366e9</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomsss9010QG2025sss322treeef29d98a63ea7661b22aab5f2043258a697af735targetblankef29d98a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomsss9010QG2025sss322tree5b366e9191a3582a9fcaff883e9b4f4c500aeb68targetblank5b366e9a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -534,7 +534,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/sss9010/QG2025sss322/tree/ef29d98a63ea7661b22aab5f2043258a697af735" target="_blank">ef29d98</a>.
+<a href="https://github.com/sss9010/QG2025sss322/tree/5b366e9191a3582a9fcaff883e9b4f4c500aeb68" target="_blank">5b366e9</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -554,10 +554,10 @@ Ignored files:
     Ignored:    analysis/.Rhistory
 
 Untracked files:
-    Untracked:  analysis/Problemset1.Rmd
+    Untracked:  analysis/Lab4_DataForBreedingValue.Rmd
 
 Unstaged changes:
-    Modified:   analysis/index.Rmd
+    Modified:   analysis/Problemset1.Rmd
 
 </code></pre>
 <p>
@@ -573,9 +573,72 @@ have uncommitted changes.
 </div>
 <div id="versions" class="tab-pane fade">
 <p>
-There are no past versions. Publish this analysis with
-<code>wflow_publish()</code> to start tracking its development.
+These are the previous versions of the repository in which changes were
+made to the R Markdown (<code>analysis/Problemset1.Rmd</code>) and HTML
+(<code>docs/Problemset1.html</code>) files. If you’ve configured a
+remote Git repository (see <code>?wflow_git_remote</code>), click on the
+hyperlinks in the table below to view the files as they were in that
+past version.
 </p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/sss9010/QG2025sss322/blob/5b366e9191a3582a9fcaff883e9b4f4c500aeb68/analysis/Problemset1.Rmd" target="_blank">5b366e9</a>
+</td>
+<td>
+sss9010
+</td>
+<td>
+2025-02-08
+</td>
+<td>
+PS1
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/sss9010/QG2025sss322/5b366e9191a3582a9fcaff883e9b4f4c500aeb68/docs/Problemset1.html" target="_blank">5b366e9</a>
+</td>
+<td>
+sss9010
+</td>
+<td>
+2025-02-08
+</td>
+<td>
+PS1
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 <hr>
 </div>
 </div>
@@ -600,16 +663,15 @@ class="section level4">
 <h4><strong>A. If I select only lines with the genotype AA, what
 expected proportion of the selected lines that will be homozygous for
 the favorable QTL (QQ)? (2 pts)</strong></h4>
-<p>In the haplotypes:</p>
-<p>Probability of AQ is 0.5 * 0.75= 0.375</p>
-<p>Probability of Aq and aQ is 0.5 * 0.25 + 0.5 * 0.25 * 0.25</p>
-<p>Probability of aq is 0.5 * 0.75= 0.375</p>
 <p>In the whole genotype:</p>
 <p>Probability of AA is 0.25 (from the Punnett square)</p>
+<p>Probability of AQ = P(no crossover) * 0.5 = (1 - 0.25) * 0.5 =
+0.375</p>
 <p>I want the find the probability of QQ given AA, through using the
 joint probability.</p>
-<p>P= P(QQ and AA) / P(AA) = (P(AQ)*P(AQ))/ P(AA)</p>
-<p>P= (0.375*0.375)) / 0.25 = 0.5625</p>
+<p>P= P(QQ and AA) / P(AA) = (P(AQ) * P(AQ)) / P(AA)</p>
+<p>P= (0.375 * 0.375)) / 0.25 = 0.5625</p>
+<p>The expected proportion of QQ given AA is equal to 0.5625</p>
 <p><strong>The probability that i get the genotype where both marker
 alleles are A and there has been no recombination between the marker and
 the qtl is 0.5625</strong></p>
@@ -637,34 +699,32 @@ class="section level4">
 select only lines with the genotype AABB, what is the expected
 proportion of the selected lines that will be homozygous for the
 favorable QTL (QQ)? (2 pts)</strong></h4>
-<p>P(QQ given AABB)</p>
-<p><strong>Probability of AB haplotypes:</strong></p>
-<p>aqb= ABQ =0.5 * 0.6 * 0.7(getting A and B with no crossovers) + 0.5 *
-0.3 *0.4 (getting A and B as a result of 2 crossovers) = 0.27</p>
-<p>AqB = 0.5 * 0.3 * 0.4 (getting 2 crossovers) = 0.06</p>
-<p>aQB= 0.5 * 0.4 * 0.7(crossover in AQ) + 0.5 * 0.6 * 0.3(Crossover in
-QB) = 0.23</p>
-<p>AQb = 0.5 * 0.6 * 0.3= 0.09</p>
-<p>Aqb= 0.5 * 0.4 * 0.7 = 0.14</p>
-<p>The probability of Q given AB haplotype = (0.27-0.06)/0.27 = 0.77</p>
-<p>The probability of q given AB haplotype = 1-0.77= 0.23</p>
-<p>The probability of QQ given AABB genotype = 0.77*0.77= 0.5929</p>
-<p>The probability of qq given AABB genotype = 0.23*0.23= 0.0529</p>
-<p>The probability of Qq/qQ given AABB genotype = 2 * (0.77 * 0.23)=
-0.3542</p>
+<p>P(QQ given AABB) = P(QQ and AABB) / P(AABB)</p>
+<p><strong>Joint probability:</strong></p>
+<p>P(AABB) = P(no crossover or 2 crossovers in 1st haplotype) * P(no
+crossover or 2 crossovers in 2nd haplotype)</p>
+<p>P(AABB)= (0.5 * 0.6 * 0.7 + 0.5 * 0.4 * 0.3) * (0.5 * 0.6 * 0.7 + 0.5
+* 0.4 * 0.3) = 0.27*0.27= 0.0729</p>
+<p><strong>Probability of QQ and AABB:</strong></p>
+<p>Probability of QQ and AABB = 0.5 * (0.6 * 0.7) * 0.5 * (0.6 * 0.7) =
+0.0441</p>
+<p><strong>P(QQ given AABB) </strong></p>
+<p>Probability of (QQ given AABB) = 0.0441/0.0729 = 0.6049383</p>
 <p><strong>The proportion of lines that have QQ given AABB genotype is
-0.59</strong></p>
+0.61</strong></p>
 </div>
 <div
 id="b.-what-is-the-expected-value-for-offspring-with-the-genotype-aabb-3-pts"
 class="section level4">
 <h4><strong>B. What is the expected value for offspring with the
 genotype AABB? (3 pts)</strong></h4>
-<p>QQ given AABB= 0.5929</p>
-<p>qq given AABB= 0.0529</p>
-<p>Qq given AABB= 0.3542</p>
-<pre class="r"><code>(0.5929*5) + (0.3542*0) + (0.0529*-5) </code></pre>
-<pre><code>[1] 2.7</code></pre>
+<p>P(QQ given AABB) = 0.7778 ^2 =0.605.</p>
+<p>P(qq given AABB)= (P(2 crossovers have happened and AB)/P(AB))^2 =
+(0.5 * 0.4 * 0.3) / (0.5 * 0.4 * 0.3 + 0.5 * 0.6 * 0.7)^2 =0.222 ^ 2 =
+0.049</p>
+<p>P(Qq given AABB) = 2 * 0.7778 * 0.2222 = 0.345</p>
+<pre class="r"><code>(0.605*5) + (0.345*0) + (0.049*-5) </code></pre>
+<pre><code>[1] 2.78</code></pre>
 <p>The expected value when the genotype is AABB is 2.7</p>
 </div>
 <div
@@ -672,8 +732,11 @@ id="c.-what-is-the-expected-value-for-lines-with-the-genotype-aa-3-pts"
 class="section level4">
 <h4><strong>C. What is the expected value for lines with the genotype
 AA? (3 pts)</strong></h4>
-<p>Probability of QQ given AA = 0.6*0.6= 0.36</p>
-<p>Probability of qq given AA= 0.4*0.4 = 0.16</p>
+<p>Probability of QQ given AA = P(Q given A) * P(Q given A) = (P(Q and
+A)/P(A))^2 = ((0.5 * (1 - 0.4)) / 0.5)^2 = (0.5 * 0.6 / 0.5)^2 =
+0.36</p>
+<p>Probability of qq given AA = P(q given A) * P(q given A) = (P(Q and
+A)/P(A))^2 = ((0.5 * 0.4 / 0.5)^2 = (0.4)^2 = 0.15</p>
 <p>Probability of Qq given AA is 2 * 0.4 * 0.6 = 0.48</p>
 <pre class="r"><code>(0.36*5) + (0.48*0) + (0.16*-5) </code></pre>
 <pre><code>[1] 1</code></pre>
@@ -684,8 +747,11 @@ id="d.-what-is-the-expected-value-for-lines-with-the-genotype-bb-3-pts"
 class="section level4">
 <h4><strong>D. What is the expected value for lines with the genotype
 BB? (3 pts)</strong></h4>
-<p>Probability of QQ given BB = 0.7*0.7= 0.49</p>
-<p>Probability of qq given BB= 0.3*0.3 = 0.09</p>
+<p>Probability of QQ given BB = P(Q given B) * P(Q given B) = (P(Q and
+B)/P(B))^2 = ((0.5 * (1 - 0.3)) / 0.5)^2 = (0.5 * 0.7 / 0.5)^2 =
+0.49</p>
+<p>Probability of qq given BB = P(q given B) * P(q given B) = (P(q and
+B)/P(B))^2 = ((0.5 * 0.3 / 0.5)^2 = (0.5 * 0.3 / 0.5)^2 = 0.09</p>
 <p>Probability of Qq given BB is 2 * 0.7 * 0.3 = 0.42</p>
 <pre class="r"><code>(0.49*5) + (0.42*0) + (0.09*-5) </code></pre>
 <pre><code>[1] 2</code></pre>
@@ -700,13 +766,13 @@ above? (2 pts)</strong></h4>
 <p>x= the 1-r value for the MAS to be as effective as two marker
 selection</p>
 <p>q= 1-x</p>
-<p>5x^2 + 2x(1-x) * 0 + (1-x)^2 * (-5) = 2.7</p>
+<p>5x^2 + 2x(1-x) * 0 + (1-x)^2 * (-5) = 2.78</p>
 <p>5x^2 + 0 + -5+10x-5p^2 = 2.7</p>
-<p>10x = 2.7+5 = 7.7</p>
-<p>x= 0.77</p>
-<p>r= 1-x= 0.23</p>
+<p>10x = 2.7+5 = 7.78</p>
+<p>x= 0.78</p>
+<p>r= 1-x= 0.22</p>
 <p><strong>The recombination frequency of a marker has to be smaller
-than 0.23 to be as effective as two marker selection in MAS.
+than 0.22 to be as effective as two marker selection in MAS.
 </strong></p>
 <br>
 <p>
@@ -741,10 +807,11 @@ loaded via a namespace (and not attached):
  [9] workflowr_1.7.1   glue_1.8.0        rprojroot_2.0.4   git2r_0.35.0     
 [13] htmltools_0.5.8.1 httpuv_1.6.15     sass_0.4.9        rmarkdown_2.29   
 [17] evaluate_1.0.3    jquerylib_0.1.4   tibble_3.2.1      fastmap_1.2.0    
-[21] yaml_2.3.10       lifecycle_1.0.4   stringr_1.5.1     compiler_4.4.2   
-[25] fs_1.6.5          Rcpp_1.0.14       pkgconfig_2.0.3   rstudioapi_0.17.1
-[29] later_1.4.1       digest_0.6.37     R6_2.5.1          pillar_1.10.1    
-[33] magrittr_2.0.3    bslib_0.8.0       tools_4.4.2       cachem_1.1.0     </code></pre>
+[21] yaml_2.3.10       lifecycle_1.0.4   whisker_0.4.1     stringr_1.5.1    
+[25] compiler_4.4.2    fs_1.6.5          Rcpp_1.0.14       pkgconfig_2.0.3  
+[29] rstudioapi_0.17.1 later_1.4.1       digest_0.6.37     R6_2.5.1         
+[33] pillar_1.10.1     magrittr_2.0.3    bslib_0.8.0       tools_4.4.2      
+[37] cachem_1.1.0     </code></pre>
 </div>
 </div>
 </div>
