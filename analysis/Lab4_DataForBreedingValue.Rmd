@@ -1,8 +1,8 @@
 ---
-title: "Data for Breeding Value"
+title: "Lab4HW"
 author: 
-  name: "Jean-Luc Jannink"
-  affiliation: "USDA-ARS / Cornell"
+  name: "sss322"
+  affiliation: "Cornell"
 date: "February 11, 2025"
 output:
   html_document:
@@ -41,23 +41,8 @@ knitr::opts_chunk$set(tidy.opts = list(wrap=FALSE))
 ```
 
 ## Objectives
-We will be using `AlphaSimR` to  
-* Simulate datasets to test statistical genetic analysis methods  
-* Simulate whole breeding programs in view of optimizing them  
-
-Example code to work with `AlphaSimR` to  
-1. Create a population and get breeding values from `AlphaSimR` and from an 
-"experiment"  
-2. Prepare a data structure for breeding records that will be useful for 
-simulation.  
-3. Use this data structure in simple linear model analyses.  
-
-### Reproducibility  
-Here is the [README file](./README.md) for this report  
 
 ### Script setup  
-Install packages, start the README.md, set the random seed.  
-Hiding all this because you have seen it before.  
 ```{r Script setup, echo=FALSE, results="hide"}
 ip <- installed.packages()
 packages_used <- c("AlphaSimR", "tidyverse", "workflowr", "here")
@@ -107,10 +92,7 @@ addToREADME(c(
 ```
 
 ## Genotypic value versus breeding value  
-By default, the additive genetic variance among founders will be 1.
-Here are a couple of `AlphaSimR` genetic models with non-additive gene action. `addTraitAD` gives an additive + dominance gene action. Each locus has its own dominance deviation and there is a variance of it among loci:  
-$dd \sim N(meanDD, varDD)$  
-`addTraitADE` adds pairwise additive by additive epistasis.  
+
 ```{r Compare breeding value to genotypic value}
 # Create haplotypes for founder population of outbred individuals
 founderHaps <- AlphaSimR::runMacs(nInd=nFounders, nChr=nChr, segSites=segSites)
@@ -158,10 +140,7 @@ addToREADME(c("Chunk Compare breeding value to genotypic value",
 ```
 
 ## Estimated versus analytical breeding value  
-Estimating the breeding value by a progeny test.  
-In practice, the BV can't be observed.  A progeny test calculates the average
-deviation from the population mean of progeny from randomly mating an individual
-to the population: 2 * mean(progeny pheno - pop mean)  
+
 ```{r Estimate breeding value}
 # Error variance for phenotypic evaluations
 varE <- 1
@@ -227,16 +206,8 @@ exptLines <- AlphaSimR::makeCross(founders, crossPlan)
 cbind(exptLines@id, exptLines@mother, exptLines@father) %>% head
 ```
 
-## `records` data structure  
-`AlphaSimR` populations only retain phenotypes of the most recent evaluation. 
-In plant breeding, it is common to evaluate the same line more than once, 
-and it makes sense to include all of those phenotypes in downstream analyses.
-Here, I propose a simple tibble to retain phenotypic records.  
-
 ### Set up records
-The columns are the individual `id`, its seed parent id `seedPar`, its pollen 
-parent id `pollenPar`, its observed phenotype `pheno`, and the error variance 
-of that observed phenotype `varE`  
+ 
 ```{r Set up records}
 nInd <- 100
 varE <- 1
@@ -297,8 +268,7 @@ plot(AlphaSimR::gv(exptLines), gvEstimates, pch=16,
 ```
 
 ## Use records in two-stage selection
-In plant breeding there is often a preliminary evaluation stage, then a
-more advanced stage.  We can use the records to keep track of these stages.
+
 ```{r Two stage selection}
 nIndStage1 <- 400
 nIndStage2 <- 100
@@ -323,7 +293,7 @@ stage2Lines <- exptLines[keep]
 stage2Lines <- AlphaSimR::setPheno(stage2Lines, varE=varEstage2, simParam=SP)
 records <- dplyr::bind_rows(records, makeRecFromPop(stage2Lines,
                                                     varE=varEstage2))
-
+records1<- records
 str(records)
 ```
 ```{r Two stage selection to README, echo=FALSE, results="hide"}
@@ -337,9 +307,7 @@ addToREADME(c("Two-stage selection",
 ```
 
 ## Estimate gain from selection four ways
-This little section is mostly to illustrate that `AlphaSimR` thinks of 
-breeding values *relative to the population mean*, but of genotypic values in
-*absolute* terms.  
+
 ```{r Estimate gain from selection}
 print("Gain from selection on BV where the reference pop is stage2Lines")
 print(paste("Gain from selection", 
@@ -362,53 +330,174 @@ print(paste("Gain from selection",
                   mean(AlphaSimR::gv(exptLines)), 2)))
 ```
 
-## Homework  
-1. We saw how to write a function to estimate breeding values by doing a progeny
-test (chunk `Estimate breeding value`). Then, in the chunk `Linear model
-estimation`, we used a simple linear model to combine records to estimate the
-genotypic values of individuals (chunk `Linear model estimation`).  
-Tweak the linear model so that it estimates, for example, the breeding 
-values of the seed parent. HINT: this will entail introducing `seedPar` 
-into the model. Use the `exptLines` and their associated `records` from the
-`Two stage selection` chunk.  
 
-#use this as a base to develop the LM function to estimate a BV. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## **Homework**  
+**1. Tweak the linear model so that it estimates, for example, the breeding values of the seed parent**    
+
+
+```{r}
+lmEstGV <- lm(pheno ~ -1 + seedPar, data=records)
+bvEstimates <- coefficients(lmEstGV)
+```
+
+
+**2. Make plots comparing the breeding values thus obtained to those obtained by the `bv` function or by our own `estimateBV` function.** 
+
+```{r}
+corEstBV<- round(cor(bvEstimates, estimatedBV),3)
+plot(bvEstimates, estimatedBV, pch=16, 
+     ylab="bv function", xlab="our function", 
+     main=paste0("Both Evaluations, cor=", corEstBV))
+```
+
+
+```{r}
+bv_sp <- AlphaSimR::bv(founders)
+corEstBV<- round(cor(bvEstimates, bv_sp),3)
+plot(bvEstimates, bv_sp, pch=16, 
+     ylab="bv function", xlab="our function", 
+     main=paste0("Both Evaluations, cor=", corEstBV))
+```
+
+
+**3. tweak the linear model and use the records from the `Two stage selection` chunk to account for the different error variances from Stage 1 versus Stage 2 when you estimate the genotypic values for individuals.** 
+
+```{r}
+lmEstGV_w <- lm(pheno ~ -1 + id, weights = 1/varE, data=records)
+gvwEstimates <- coefficients(lmEstGV_w )
+```
+
 ```{r}
 lmEstGV <- lm(pheno ~ -1 + id, data=records)
 gvEstimates <- coefficients(lmEstGV)
 ```
 
+```{r}
+gv_exp<- AlphaSimR::gv(exptLines)
+corEstGV_w<- round(cor(gv_exp, gvwEstimates),3)
+corEstGV<- round(cor(gv_exp, gvEstimates),3)
+```
 
 
-2. Make plots comparing the breeding values thus obtained to those 
-obtained by the `bv` function or by our own `estimateBV` function.  
-3. The `lm` function from the `stats` package can account for observations with
-different weights. Weights should be the inverse of the error variance for the
-observation. Handily, we keep that error variance in the `records` tibble.
-Again, tweak the linear model and use the records from the `Two stage selection`
-chunk to account for the different error variances from Stage 1 versus Stage 2
-when you estimate the genotypic values for individuals.  
-4. Correlate the genotypic values obtained with or without weighting to the
-simulated values obtained by the `AlphaSimR::gv` function.  
+**4. Correlate the genotypic values obtained with or without weighting to the simulated values obtained by the `AlphaSimR::gv` function.** 
+
+```{r}
+plot(gv_exp, gvEstimates, pch=16, 
+     xlab="Genetic value", ylab="Phenotype", 
+     main=paste0("Both Evaluations without weights, cor=", corEstGV))
+```
+
+```{r}
+plot(gv_exp, gvwEstimates, pch=16, 
+     xlab="Genetic value", ylab="Phenotype", 
+     main=paste0("Both Evaluations with weights, cor=", corEstGV_w))
+```
+
+
+
 5. *BONUS* for everyone: There is random error associated with all of these
 simulations. If you want to see how the breeding value from the linear model
 compares with the `estimateBV` function, or how weighted versus unweighted
 estimates of genotypic value correlate to the truth, you will have to do each
-analysis multiple times and get means and standard deviations.  
+analysis multiple times and get means and standard deviations.
+
+
+```{r}
+nIndStage1 <- 400
+nIndStage2 <- 100
+varEstage1 <- 4
+varEstage2 <- 1
+corrs<- data.frame()
+
+
+for (i in  1:100){
+  progenyPerCross <- nIndStage1 / nrow(crossPlan)
+# The production pipeline starts with a bunch of new lines
+  exptLines <- AlphaSimR::makeCross(founders, crossPlan, 
+                                  nProgeny=progenyPerCross)
+  # Phenotypic evaluation of experimental lines
+  exptLines <- AlphaSimR::setPheno(exptLines, varE=varEstage1, simParam=SP)
+  records <- makeRecFromPop(exptLines, varE=varEstage1)
+  # Select among lines to advance to Stage 2
+  keep <- AlphaSimR::pheno(exptLines) %>% 
+    order(decreasing=T) %>% .[1:nIndStage2]
+  # Phenotypic evaluation of Stage 2 lines
+  stage2Lines <- exptLines[keep]
+  stage2Lines <- AlphaSimR::setPheno(stage2Lines, varE=varEstage2, simParam=SP)
+  records <- dplyr::bind_rows(records, makeRecFromPop(stage2Lines,
+                                                    varE=varEstage2))
+  
+  #estimating genotypic value withthe weights
+  lmEstGV_w <- lm(pheno ~ -1 + id, weights = 1/varE, data=records)
+  gvwEstimates <- coefficients(lmEstGV_w)
+  #estimating genotypic value without weights
+  lmEstGV <- lm(pheno ~ -1 + id, data=records)
+  gvEstimates <- coefficients(lmEstGV)
+  
+  gv_exp<- AlphaSimR::gv(exptLines)
+  corEstGV_w<- round(cor(gv_exp, gvwEstimates),3)
+  corEstGV<- round(cor(gv_exp, gvEstimates),3)
+  corrv<- cbind(corEstGV, corEstGV_w)
+
+
+
+  corrs<- rbind(corrs, corrv)
+
+}
+
+colnames(corrs)<- c("GV corr", "GV corr weighted")
+
+boxplot(corrs)
+paste("Mean of GV correlation without weight",mean(corrs$`GV corr` ))
+
+paste("Mean of GV correlation with weight", mean(corrs$`GV corr weighted`))
+
+
+```
+
+
+
 6. *BONUS* for stat heads.  You could run a linear model with both 
 `seedPar` and `pollenPar` as factors. But that would lead to separate estimates 
 of these effects when in fact the same individuals are both seed and pollen 
 parents.  How could you implement a linear model that would estimate one 
 effect per parent regardless of whether it was a seed or pollen parent?  
 
-### Homework grading  
-I want to receive a zipped folder with your homework in it one week from today,
-before lab.  Please use the `workflowr` package to create the folder structure.
-You should have created an Rmarkdown script that will create an html file that I
-can look through. So:  
-1. 2 points for sending in a zipped folder on time.  
-2. 2 points for each successful step (1 through 4) from above, with partial
-credit.  
-3. Each BONUS is worth two points.  So you can get >10 points if you want to
-slack off on some other lab.  
-4. I will subtract 0.5 points for every day the homework is late.  
+
+```{r}
+record_p<- pivot_longer(cols = c("seedPar", "pollenPar"),  values_to = "parent", data = records1)
+head(record_p)
+```
+
+```{r}
+lmEstBV <- lm(pheno ~ -1 + parent , data=record_p)
+bvEstimates <- coefficients(lmEstBV)
+```
+
+```{r}
+corEstBV<- round(cor(AlphaSimR::bv(founders), bvEstimates),3)
+plot(AlphaSimR::bv(founders), bvEstimates, pch=16, 
+     xlab="bv function", ylab="our function", 
+     main=paste0("Both Evaluations, cor=", corEstBV))
+```
+
+
+
+

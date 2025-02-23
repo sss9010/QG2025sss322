@@ -19,5 +19,8 @@ Homework of sss322 for the Quantitative Genetics 2025 Spring
 [Homework 3](Lab3_ProgrammingAlphaSimR.html)
 
 
+[Homework 4](Lab4_DataForBreedingValue.html)
+
+
 [Problemset 1](Problemset1.html)
 
