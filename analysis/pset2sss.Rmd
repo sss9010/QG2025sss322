@@ -1,0 +1,124 @@
+---
+title: "PS2sss322"
+author: "sss322"
+date: "2025-02-27"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+Use workflowr to set up the appropriate folders structures to make is easier to grade your work
+
+Read in the file "Pedigree.csv" and write an R function to calculate the additive
+relationships (first calculate the coefficients of coancestry and then multiply by 2 to get
+the additive relationships) (5 pts)
+```{r}
+library(readr)
+library(MASS)
+library(dplyr)
+library(tidyr)
+Pedigree <- read_csv("data/Pedigree.csv")
+Pedigree_Rel <- read_csv("data/Pedigree_Rel.csv")
+
+str(Pedigree)
+
+cf_coa_m <- matrix(data=NA,nrow=nrow(Pedigree), ncol = nrow(Pedigree))
+founders <- Pedigree$id[which(Pedigree$seedPar==0 & Pedigree$pollenPar==0)]
+cf_coa_m[1:length(founders),1:length(founders)]=0
+diag(cf_coa_m)[founders]=0.5
+
+for(i in (length(founders) + 1):nrow(Pedigree)){
+  for (j in 1:(i - 1)){
+    i_seedpar <- as.numeric(Pedigree[i,"seedPar", drop=TRUE])# seedparent nr
+    i_pollenpar <- as.numeric(Pedigree[i,"pollenPar", drop=TRUE]) # pollenparent nr
+    fdv <- cf_coa_m[i_pollenpar,j]# dam coancestry with the line
+    fsv <- cf_coa_m[i_seedpar,j]# sire coancestry with the line
+    fuv <- 1/2*(fdv+fsv) # half of parents coancestry with the line
+    cf_coa_m[i,j]=fuv
+    cf_coa_m[j,i]=fuv
+  }
+  i_seedpar <- as.numeric(Pedigree[i,"seedPar", drop=TRUE])
+  i_pollenpar <- as.numeric(Pedigree[i,"pollenPar", drop=TRUE])
+  fsd <- cf_coa_m[i_seedpar,i_pollenpar] 
+  cf_coa_m[i,i]= 1/2*(1+fsd)# calculating the diagonal . as 1 + si  var with self
+}
+
+a_mat <- cf_coa_m*2
+```
+
+
+
+2. Read in the file "SNP_data.csv" and write an R function to calculate the genomic
+relationship matrix. (5 pts
+```{r}
+
+snp_data <- read_csv(here::here("data/SNP_data.csv"))
+snp_data <- snp_data[,-1]
+## Center marker scores on each marker mean
+z <- as.matrix(apply(snp_data, 2, function(col) col-mean(col)))# substracts the mean column(marker value) from the currenta value, 0,1,2
+## Calculate p and 1-p for each marker
+MAF <- function(snp_mat){
+  pm <- c()
+  for (i in 1:ncol(snp_mat)){#goes through columns counts alleles for both, calculates freq and picks the minimum
+    ref_allele <- (sum(snp_mat[,i]==0)*2+sum(snp_mat[,i]==1))/(nrow(snp_mat)*2)
+    alt_allele <- (sum(snp_mat[,i]==2)*2+sum(snp_mat[,i]==1))/(nrow(snp_mat)*2)
+    pm[i] <- min(c(ref_allele,alt_allele))
+  }
+  return(pm)
+}
+
+p <- MAF(snp_data)
+q <- 1-p
+
+scaling_factor <- 2*sum(p*q)
+  
+G <- z%*%t(z) / scaling_factor # multiplies the devaitions from the mean and sums them up. then scaled to pedigree, 
+G <- round(G,9)
+
+```
+
+
+
+3. Plot the off diagonals of the pedigree relationship matrix (x-axis) and the genomic
+relationship matrix (y-axis). Identify at least 1 difference and provide an explanation (2
+pts)
+
+```{r}
+library(ggplot2)
+offDiag <- function(relMat){
+return(c(relMat[upper.tri(relMat)]))
+}
+plotting_data <- data.frame(x=offDiag(a_mat), y=offDiag(G))
+ggplot(data=plotting_data,aes(x=x, y=y))+
+  geom_point(color="darkgreen") +
+  labs(
+    x="A Matrix",
+    y="G Matrix",
+    title= "Off Diagonals"
+  ) +
+  theme_minimal()
+```
+
+
+4. Plot the diagonals of the pedigree relationship matrix (x-axis) and the genomic
+relationship matrix (y-axis). Identify at least 1 difference and provide an explanation (2
+pts
+```{r}
+plotting_data <- data.frame(x=diag(a_mat), y=diag(G))
+ggplot(data=plotting_data,aes(x=x, y=y))+
+  geom_point(color="darkgreen") +
+  labs(
+    x="A Matrix",
+    y="G Matrix",
+    title= "Diagonals"
+  ) +
+  theme_minimal()
+```
+
+One major difference that we see between the diagonals of the A and G matrix diagonals is that in the A matrix, values cannot extend below 0 whereas in the GRM, values dip as low as about 0.69. 
+
+This is primarily due to the fact that the A matrix does not allow expected values of coefficients of coancestry to extend below 0, wheras in the realized G matrix, these can definitely fall below 0. This leads to negative values of inbreeding coefficients which create diagonal elements in the GRM that are below 1. 

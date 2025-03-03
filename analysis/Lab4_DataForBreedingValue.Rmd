@@ -497,7 +497,3 @@ plot(AlphaSimR::bv(founders), bvEstimates, pch=16,
      xlab="bv function", ylab="our function", 
      main=paste0("Both Evaluations, cor=", corEstBV))
 ```
-
-
-
-
